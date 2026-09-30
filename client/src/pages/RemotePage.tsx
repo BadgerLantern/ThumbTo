@@ -3,8 +3,9 @@ import { HapticArcDial } from '../components/HapticArcDial.js';
 import { LiveHypeGauge } from '../components/LiveHypeGauge.js';
 import { LivePollWidget } from '../components/LivePollWidget.js';
 import { ThumbChatDock, ChatMessage } from '../components/ThumbChatDock.js';
+import { RadialThumbMenu } from '../components/RadialThumbMenu.js';
 import { triggerHaptic } from '../utils/haptics.js';
-import { Radio, ExternalLink, ShieldCheck } from 'lucide-react';
+import { Radio, ShieldCheck } from 'lucide-react';
 
 interface FloatingEmote {
   id: string;
@@ -304,24 +305,8 @@ export const RemotePage: React.FC<{ handle: string }> = ({ handle }) => {
             <LivePollWidget poll={activePoll} onVote={handleVote} />
           </div>
         ) : (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            {creator.links.map((link: any) => (
-              <a
-                key={link.id}
-                href={link.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="thumb-btn"
-                style={{
-                  textDecoration: 'none',
-                  justifyContent: 'space-between',
-                  padding: '0 16px',
-                }}
-              >
-                <span>{link.title}</span>
-                <ExternalLink size={16} color="var(--text-muted)" />
-              </a>
-            ))}
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
+            <RadialThumbMenu links={creator.links} creatorName={creator.displayName} />
           </div>
         )}
       </div>
