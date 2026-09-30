@@ -1,0 +1,33 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: thumbto_app
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - DATABASE_URL=postgres://thumbto:secretpassword@postgres:5432/thumbto
+      - SESSION_SECRET=change_this_to_a_secure_random_string_32_chars
+      - FRONTEND_URL=https://thumb.to
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: thumbto_db
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=thumbto
+      - POSTGRES_PASSWORD=secretpassword
+      - POSTGRES_DB=thumbto
+    volumes:
+      - thumbto_pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+volumes:
+  thumbto_pgdata:
